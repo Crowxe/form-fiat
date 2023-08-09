@@ -647,8 +647,9 @@ small {
 
 
 .highlight-group:focus-within {
-  background-color: rgba(255, 235, 192, 0.7);
+  background-color: #fffaca;
 }
+
 
 select.input--style-4 {
   background-color: #fff;
