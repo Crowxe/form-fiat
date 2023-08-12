@@ -691,7 +691,6 @@ input, select {
 
 .select-with-icon {
   background-image: url('data:image/svg+xml;utf8,...'); /* Mueve el ícono de flecha hacia abajo a una clase separada */
-  /* ... (otros estilos específicos para selects con ícono) ... */
 }
 
     /* Estilos para la cabecera */
@@ -719,11 +718,46 @@ input, select {
           }
       }
 
-      #signature-pad {
-        width: 400px;
-        height: 200px;
-        border: 1px solid black;
-        display: block;
-        background-color: white;
+    #signature-pad {
+    width: 100%; /* Cambiado a 100% para que sea responsive */
+    max-width: 400px; /* Ancho máximo de 400px */
+    height: 200px;
+    border: 1px solid black;
+    display: block;
+    background-color: white;
+}
+
+/* Asegurarse de que los contenedores se adapten al ancho de la pantalla */
+.input-group, .highlight-group {
+    max-width: 100%;
+    box-sizing: border-box; /* Esto asegura que el padding y el borde estén incluidos en el ancho total */
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+    .label, .sublabel {
+        font-size: 14px; /* Reduce el tamaño del texto */
     }
-    
+
+    .input--style-4 {
+        width: 100%; /* Asegura que los inputs ocupen todo el ancho disponible */
+    }
+
+    .row-space {
+        flex-direction: column; /* Apila los elementos verticalmente */
+    }
+}
+
+@media (max-width: 467px) {
+  .label {
+      font-size: 12px; /* Reduce el tamaño del texto de los labels */
+      margin-bottom: 3px; /* Reduce el margen inferior */
+  }
+
+  .input--style-4 {
+      font-size: 14px; /* Reduce el tamaño del texto de los inputs */
+      padding: 5px 8px; /* Reduce el padding */
+  }
+
+}
+

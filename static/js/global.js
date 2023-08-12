@@ -69,37 +69,40 @@
 
 })(jQuery);
 
-window.onload = function() {
-    // Dibuja el "placeholder" inicialmente
-    drawPlaceholder();
-}
-
 const canvas = document.getElementById('signature-pad');
 const ctx = canvas.getContext('2d');
+const signaturePad = new SignaturePad(canvas);
+let hasDrawn = false; // Variable para rastrear si ya se ha dibujado en el canvas
 
-// Función para mostrar el "placeholder" en el canvas
-function drawPlaceholder() {
+// Ajustar el tamaño del canvas y dibujar el "placeholder"
+function setupCanvas() {
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    canvas.width = canvas.offsetWidth * ratio;
+    canvas.height = canvas.offsetHeight * ratio;
+    canvas.getContext("2d").scale(ratio, ratio);
     ctx.font = '20px Arial';
     ctx.fillStyle = '#A9A9A9';
     ctx.textAlign = 'center';
     ctx.fillText('Firme aquí', canvas.width / 2, canvas.height / 2);
 }
 
-const signaturePad = new SignaturePad(canvas);
-
-// Configuraciones adicionales
+// Configuración inicial
+setupCanvas();
 signaturePad.minWidth = 1;
 signaturePad.maxWidth = 3;
 signaturePad.penColor = "rgb(0, 0, 0)";
 
-// Borra el "placeholder" cuando el usuario comienza a dibujar
-signaturePad.onBegin = function() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-};
+// Evento para limpiar el "placeholder" al comenzar a dibujar
+signaturePad.addEventListener("beginStroke", () => {
+    if (!hasDrawn) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        hasDrawn = true;
+    }
+});
 
-const clearButton = document.getElementById('clear-pad');
-
-clearButton.addEventListener('click', function() {
+// Evento para el botón de limpiar
+document.getElementById('clear-pad').addEventListener('click', () => {
     signaturePad.clear();
-    drawPlaceholder(); // Vuelve a dibujar el "placeholder" después de limpiar
+    setupCanvas();
+    hasDrawn = false; // Restablecer el indicador al limpiar el canvas
 });
