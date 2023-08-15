@@ -26,6 +26,9 @@
 
     <!-- Main CSS-->
     <link href="../static/css/main.css" rel="stylesheet" media="all" />
+    <link rel="icon" type="image/png" href="../static/img/faviconFiat.ico">
+
+
 </head>
 
 <body>
@@ -34,7 +37,7 @@
             <div class="card card-4">
                 <div class="card-body">
 
-  
+
                     <div style="display: flex; align-items: center; justify-content: center;" class="header">
                         <img src="../static/img/olitas.png" alt="Logo" style="width: 90px; margin-right: 20px;">
                         <div>
@@ -214,9 +217,10 @@
                                     <div class="input-group">
                                         <label class="label">Modelo de Suscripción</label>
                                         <select class="input--style-4 select-with-icon" name="subscription_model">
-                                            <option disabled="disabled" selected="selected">
-                                                Seleccionar modelo
-                                            </option>
+                                            {% for vehicle in vehicles %}
+                                            <option value="{{ vehicle.name }}">{{ vehicle.name }} - {{
+                                                vehicle.description }}</option>
+                                            {% endfor %}
 
                                         </select>
                                         <div class="select-dropdown"></div>
@@ -251,9 +255,9 @@
                                 <label class="label">Asesor de atención al cliente
                                     <span style="color: red">*</span></label>
                                 <select class="input--style-4 select-with-icon" name="customer_advisor">
-                                    <option disabled="disabled" selected="selected">
-                                        Elegir
-                                    </option>
+                                    {% for advisor in advisors %}
+                                    <option value="{{ advisor.name }}">{{ advisor.name }} ({{ advisor.email }})</option>
+                                    {% endfor %}
 
                                 </select>
                                 <div class="select-dropdown"></div>
@@ -266,7 +270,7 @@
                                 <label class="label">Adherirse al Débito Automático para el pago de cuotas
                                     <span style="color: red">*</span></label>
                                 <div class="p-t-10">
-                                    <label class="radio-container m-r-45">Sí, con Tarjeta de crédito
+                                    <label class="radio-container m-r-45">Sí, con tarjeta de crédito
                                         <input type="radio" name="payment" />
                                         <span class="checkmark"></span>
                                     </label>
@@ -285,19 +289,42 @@
                         <div class="highlight-group">
                             <div class="input-group">
                                 <label class="label">FIRMA</label>
-                                <canvas id="signature-pad" class="signature-pad" style="border: 1px solid #e0e0e0; width: 300px; height: 120px;"></canvas>
-                                <div class="signature-footer" style="display: flex; justify-content: space-between; align-items: center; width: 300px;">
+                                <canvas id="signature-pad" class="signature-pad"
+                                    style="border: 1px solid #e0e0e0; width: 300px; height: 120px;"></canvas>
+                                <div class="signature-footer"
+                                    style="display: flex; justify-content: space-between; align-items: center; width: 300px;">
                                     <small class="sublabel">Utiliza el mouse o el dedo para firmar</small>
-                                    <button id="clear-pad" type="button" style="color: rgb(116, 107, 107) !important;border: 1px solid #A9A9A9; padding: 5px 10px; border-radius: 5px; margin-top: 5px; background-color: #e7e7e7; color: black; cursor: pointer;">Limpiar</button>
+                                    <button id="clear-pad" type="button"
+                                        style="color: rgb(116, 107, 107) !important;border: 1px solid #A9A9A9; padding: 5px 10px; border-radius: 5px; margin-top: 5px; background-color: #e7e7e7; color: black; cursor: pointer;">Limpiar</button>
                                 </div>
                             </div>
                         </div>
-                        
-                        
-                        
+                        <br>
+                        <p style="padding-left: 15px;">Sres Giama Fiat: Por medio del presente formulario,
+                            doy expresa autorización a confeccionar y gestionar en Fiat Autoplan, el alta de la
+                            financiación solicitada a mi nombre.</p>
 
+                        <br><br>
+                        <div class="checkbox-parent">
+                            <div class="custom-checkbox-group">
+                                <input type="checkbox" id="terms-anticipada" name="terms-anticipada" required>
+                                <label for="terms-anticipada">
+                                    <a href="ruta-del-pdf-anticipada.pdf" target="_blank">Términos y Condiciones</a>
+                                    Adjudicación Anticipada *
+                                </label>
+                            </div>
 
+                            <div class="custom-checkbox-group">
+                                <input type="checkbox" id="terms-llave" name="terms-llave" required>
+                                <label for="terms-llave">
+                                    <a href="ruta-del-pdf-llave.pdf" target="_blank">Términos y Condiciones</a> Usado
+                                    Llave X Llave *
+                                </label>
+                            </div>
 
+                        </div>
+                        <br>
+                        <hr><br>
                         <div class="p-t-15">
                             <button class="btn btn--radius-2 btn--blue" type="submit">
                                 Enviar
@@ -312,7 +339,8 @@
                         <script src="../static/vendor/datepicker/daterangepicker.js"></script>
 
                         <!-- Main JS-->
-                        <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+                        <script
+                            src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
                         <script src="../static/js/global.js"></script>
 
 </body>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Nuevo Formulario de Suscripción</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #e7e7e7;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>¡Nueva Suscripción!</h1>
+        <table>
+            <tr>
+                <th>Nombre completo</th>
+                <td>{{ first_name }} {{ last_name }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ email }}</td>
+            </tr>
+            <tr>
+                <th>Fecha de nacimiento</th>
+                <td>{{ birthday }}</td>
+            </tr>
+            <tr>
+                <th>DNI o CUIT</th>
+                <td>{{ dni_cuit }}</td>
+            </tr>
+            <tr>
+                <th>Número de celular</th>
+                <td>{{ cellphone }}</td>
+            </tr>
+            <tr>
+                <th>Número de teléfono alternativo</th>
+                <td>{{ alt_phone }}</td>
+            </tr>
+            <tr>
+                <th>Domicilio</th>
+                <td>Calle {{ street }}, Número {{ door_number }}, Piso {{ floor }}, Departamento {{ apartment }},
+                    Localidad {{ city }}, Provincia {{ province }}, Código Postal {{ postal_code }}</td>
+            </tr>
+            <tr>
+                <th>CUIL del Titular</th>
+                <td>{{ cuil }}</td>
+            </tr>
+            <tr>
+                <th>Estado Civil</th>
+                <td>{{ marital_status }}</td>
+            </tr>
+            <tr>
+                <th>N° de Suscripción asignado</th>
+                <td>{{ subscription_number }}</td>
+            </tr>
+            <tr>
+                <th>Modelo de Suscripción</th>
+                <td>{{ subscription_model }}</td>
+            </tr>
+            <tr>
+                <th>Forma de pago RESERVA</th>
+                <td>{{ payment_method }}</td>
+            </tr>
+            <tr>
+                <th>Asesor de atención al cliente</th>
+                <td>{{ customer_advisor }}</td>
+            </tr>
+            <tr>
+                <th>Adherirse al Débito Automático para el pago de cuotas</th>
+                <td>{{ payment }}</td>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>

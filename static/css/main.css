@@ -1,4 +1,3 @@
-
 /* ==========================================================================
    #FONT
    ========================================================================== */
@@ -62,7 +61,9 @@ html {
   margin: 0;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   -webkit-box-sizing: inherit;
   -moz-box-sizing: inherit;
   box-sizing: inherit;
@@ -75,12 +76,23 @@ html {
  * A very simple reset that sits on top of Normalize.css.
  */
 body,
-h1, h2, h3, h4, h5, h6,
-blockquote, p, pre,
-dl, dd, ol, ul,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+blockquote,
+p,
+pre,
+dl,
+dd,
+ol,
+ul,
 figure,
 hr,
-fieldset, legend {
+fieldset,
+legend {
   margin: 0;
   padding: 0;
 }
@@ -130,7 +142,12 @@ body {
   font-size: 14px;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 400;
 }
 
@@ -170,7 +187,13 @@ h6 {
 }
 
 .bg-gra-01 {
-  background: -webkit-gradient(linear, left bottom, left top, from(#d3d3d3), to(#a9a9a9));
+  background: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    from(#d3d3d3),
+    to(#a9a9a9)
+  );
   background: -webkit-linear-gradient(bottom, #d3d3d3 0%, #a9a9a9 100%);
   background: -moz-linear-gradient(bottom, #d3d3d3 0%, #a9a9a9 100%);
   background: -o-linear-gradient(bottom, #d3d3d3 0%, #a9a9a9 100%);
@@ -178,14 +201,18 @@ h6 {
 }
 
 .bg-gra-02 {
-  background: -webkit-gradient(linear, left bottom, right top, from(#bdbdbd), to(#808080));
+  background: -webkit-gradient(
+    linear,
+    left bottom,
+    right top,
+    from(#bdbdbd),
+    to(#808080)
+  );
   background: -webkit-linear-gradient(bottom left, #bdbdbd 0%, #808080 100%);
   background: -moz-linear-gradient(bottom left, #bdbdbd 0%, #808080 100%);
   background: -o-linear-gradient(bottom left, #bdbdbd 0%, #808080 100%);
   background: linear-gradient(to top right, #bdbdbd 0%, #808080 100%);
 }
-
-
 
 /* ==========================================================================
    #SPACING
@@ -208,6 +235,9 @@ h6 {
 
 .p-t-15 {
   padding-top: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .p-t-10 {
@@ -289,11 +319,14 @@ h6 {
 }
 
 .btn--blue {
-  background: #4272d7;
+  background: linear-gradient(to bottom, #043e7c, #5578b8);
+  border: none;
+  transition: box-shadow 0.3s ease, transform 0.3s ease; /* Transición suave para box-shadow y transform */
 }
 
 .btn--blue:hover {
-  background: #3868cd;
+  background: linear-gradient(to bottom, #075cb8, #6790dd);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); /* Efecto de iluminación sutil */
 }
 
 /* ==========================================================================
@@ -307,7 +340,8 @@ input[type="date" i] {
   padding: 14px;
 }
 
-.table-condensed td, .table-condensed th {
+.table-condensed td,
+.table-condensed th {
   font-size: 14px;
   font-family: "Roboto", "Arial", "Helvetica Neue", sans-serif;
   font-weight: 400;
@@ -328,7 +362,8 @@ input[type="date" i] {
   margin-top: 5px;
 }
 
-.daterangepicker::after, .daterangepicker::before {
+.daterangepicker::after,
+.daterangepicker::before {
   display: none;
 }
 
@@ -361,7 +396,7 @@ input {
   font-family: inherit;
 }
 
-.input--style-4{
+.input--style-4 {
   line-height: 40px;
   background: #fdfdfd;
   -webkit-box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
@@ -406,7 +441,6 @@ input {
   color: #666;
 }
 
-
 .label {
   font-size: 16px;
   color: #555;
@@ -419,13 +453,10 @@ input {
 .radio-container {
   display: inline-block;
   position: relative;
-  padding-left: 30px;
+  padding-left: 35px;
   cursor: pointer;
   font-size: 16px;
   color: #666;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 
@@ -433,56 +464,46 @@ input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
+  z-index: 1;
 }
 
-.radio-container input:checked ~ .checkmark {
-  background-color: #e5e5e5;
-}
-
-.radio-container input:checked ~ .checkmark:after {
-  display: block;
-}
-
-.radio-container .checkmark:after {
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  width: 12px;
-  height: 12px;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  border-radius: 50%;
-  background: #57b846;
-}
-
-.checkmark {
+.radio-container .checkmark {
   position: absolute;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  -moz-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  -o-transform: translateY(-50%);
-  transform: translateY(-50%);
+  top: 0;
   left: 0;
   height: 20px;
   width: 20px;
   background-color: #e5e5e5;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
   border-radius: 50%;
-  -webkit-box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
-  -moz-box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
-  box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.3s ease, border 0.3s ease;
 }
 
-.checkmark:after {
+.radio-container:hover .checkmark,
+.radio-container input:checked ~ .checkmark {
+  box-shadow: 0 0 6px #043e7c; /* Sombra azul más suave */
+}
+
+.radio-container input:checked ~ .checkmark {
+  border: 1px solid #043e7c; /* Borde azul más delgado */
+  background-color: #fff;
+}
+
+.radio-container .checkmark:after {
   content: "";
   position: absolute;
-  display: none;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: #2362a7;
+  transition: all 0.2s ease;
+}
+
+.radio-container input:checked ~ .checkmark:after {
+  width: 12px;
+  height: 12px;
+  transform: translate(-50%, -50%);
 }
 
 .input-group {
@@ -508,9 +529,6 @@ input {
   cursor: pointer;
 }
 
-/* ==========================================================================
-   #TITLE
-   ========================================================================== */
 .title {
   font-size: 24px;
   color: #525252;
@@ -518,9 +536,6 @@ input {
   margin-bottom: 40px;
 }
 
-/* ==========================================================================
-   #CARD
-   ========================================================================== */
 .card {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
@@ -549,23 +564,19 @@ input {
   }
 }
 
-/* Para cambiar la opacidad en los navegadores que utilizan el prefijo webkit (Chrome, Safari, etc.) */
-::-webkit-input-placeholder { /* Selector de WebKit */
+::-webkit-input-placeholder {
   opacity: 0.7;
 }
 
-/* Para cambiar la opacidad en Firefox */
-::-moz-placeholder { /* Selector de Firefox 19+ */
+::-moz-placeholder {
   opacity: 0.7;
 }
 
-/* Para cambiar la opacidad en Internet Explorer */
-:-ms-input-placeholder { /* Selector de IE 10+ */
+:-ms-input-placeholder {
   opacity: 0.7;
 }
 
-/* Para cambiar la opacidad en Edge */
-::placeholder { /* Selector de Edge */
+::placeholder {
   opacity: 0.7;
 }
 .radio-container {
@@ -617,23 +628,39 @@ input {
 }
 
 @-webkit-keyframes checkmark {
-  0% { transform: scale(0); }
-  10% { transform: scale(0.25); }
+  0% {
+    transform: scale(0);
+  }
+  10% {
+    transform: scale(0.25);
+  }
 }
 
 @-moz-keyframes checkmark {
-  0% { transform: scale(0); }
-  10% { transform: scale(0.25); }
+  0% {
+    transform: scale(0);
+  }
+  10% {
+    transform: scale(0.25);
+  }
 }
 
 @-o-keyframes checkmark {
-  0% { transform: scale(0); }
-  10% { transform: scale(0.25); }
+  0% {
+    transform: scale(0);
+  }
+  10% {
+    transform: scale(0.25);
+  }
 }
 
 @keyframes checkmark {
-  0% { transform: scale(0); }
-  10% { transform: scale(0.25); }
+  0% {
+    transform: scale(0);
+  }
+  10% {
+    transform: scale(0.25);
+  }
 }
 
 small {
@@ -645,11 +672,9 @@ small {
   border-radius: 5px;
 }
 
-
 .highlight-group:focus-within {
   background-color: #fffaca;
 }
-
 
 select.input--style-4 {
   background-color: #fff;
@@ -679,7 +704,8 @@ select.input--style-4 {
   background-color: #fff;
   padding-right: 40px; /* Ajusta el padding para que el texto no se superponga con el icono */
 }
-input, select {
+input,
+select {
   box-sizing: border-box; /* Asegura que el padding y el border se incluyan en el ancho total */
   border: 1px solid #ccc; /* Asegura que todos los campos de entrada tengan el mismo borde */
 }
@@ -690,74 +716,108 @@ input, select {
 }
 
 .select-with-icon {
-  background-image: url('data:image/svg+xml;utf8,...'); /* Mueve el ícono de flecha hacia abajo a una clase separada */
+  background-image: url("data:image/svg+xml;utf8,..."); /* Mueve el ícono de flecha hacia abajo a una clase separada */
 }
 
-    /* Estilos para la cabecera */
-        .header {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-wrap: wrap; /* Permite que los elementos se ajusten automáticamente */
-      }
+/* Estilos para la cabecera */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap; /* Permite que los elementos se ajusten automáticamente */
+}
 
-      .header img {
-          width: 100px;
-          margin-right: 20px;
-      }
+.header img {
+  width: 100px;
+  margin-right: 20px;
+}
 
-      .header div {
-          text-align: center;
-      }
+.header div {
+  text-align: center;
+}
 
-      /* Estilos para pantallas pequeñas */
-      @media (max-width: 768px) {
-          .header img {
-              margin-bottom: 20px;
-              margin-left: 20px;
-          }
-      }
+/* Estilos para pantallas pequeñas */
+@media (max-width: 768px) {
+  .header img {
+    margin-bottom: 20px;
+    margin-left: 20px;
+  }
+}
 
-    #signature-pad {
-    width: 100%; /* Cambiado a 100% para que sea responsive */
-    max-width: 400px; /* Ancho máximo de 400px */
-    height: 200px;
-    border: 1px solid black;
-    display: block;
-    background-color: white;
+#signature-pad {
+  width: 100%; /* Cambiado a 100% para que sea responsive */
+  max-width: 400px; /* Ancho máximo de 400px */
+  height: 200px;
+  border: 1px solid black;
+  display: block;
+  background-color: white;
 }
 
 /* Asegurarse de que los contenedores se adapten al ancho de la pantalla */
-.input-group, .highlight-group {
-    max-width: 100%;
-    box-sizing: border-box; /* Esto asegura que el padding y el borde estén incluidos en el ancho total */
+.input-group,
+.highlight-group {
+  max-width: 100%;
+  box-sizing: border-box; /* Esto asegura que el padding y el borde estén incluidos en el ancho total */
 }
 
 /* Ajustes para pantallas pequeñas */
 @media (max-width: 768px) {
-    .label, .sublabel {
-        font-size: 14px; /* Reduce el tamaño del texto */
-    }
+  .label,
+  .sublabel {
+    font-size: 14px; /* Reduce el tamaño del texto */
+  }
 
-    .input--style-4 {
-        width: 100%; /* Asegura que los inputs ocupen todo el ancho disponible */
-    }
+  .input--style-4 {
+    width: 100%; /* Asegura que los inputs ocupen todo el ancho disponible */
+  }
 
-    .row-space {
-        flex-direction: column; /* Apila los elementos verticalmente */
-    }
+  .row-space {
+    flex-direction: column; /* Apila los elementos verticalmente */
+  }
 }
 
 @media (max-width: 467px) {
   .label {
-      font-size: 12px; /* Reduce el tamaño del texto de los labels */
-      margin-bottom: 3px; /* Reduce el margen inferior */
+    font-size: 12px; /* Reduce el tamaño del texto de los labels */
+    margin-bottom: 3px; /* Reduce el margen inferior */
   }
 
   .input--style-4 {
-      font-size: 14px; /* Reduce el tamaño del texto de los inputs */
-      padding: 5px 8px; /* Reduce el padding */
+    font-size: 14px; /* Reduce el tamaño del texto de los inputs */
+    padding: 5px 8px; /* Reduce el padding */
   }
-
 }
 
+.custom-checkbox-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.custom-checkbox-group input[type="checkbox"] {
+  margin: 0;
+  margin-right: 10px;
+  position: relative;
+  top: 0;
+  left: 0;
+  width: auto;
+  height: auto;
+  opacity: 1;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.custom-checkbox-group label {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.custom-checkbox-group a {
+  text-decoration: underline;
+}
+
+.checkbox-parent {
+  padding-left: 15px;
+}
