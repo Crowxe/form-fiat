@@ -27,8 +27,6 @@
     <!-- Main CSS-->
     <link href="../static/css/main.css" rel="stylesheet" media="all" />
     <link rel="icon" type="image/png" href="../static/img/faviconFiat.ico">
-
-
 </head>
 
 <body>
@@ -36,7 +34,6 @@
         <div class="wrapper wrapper--w680">
             <div class="card card-4">
                 <div class="card-body">
-
 
                     <div style="display: flex; align-items: center; justify-content: center;" class="header">
                         <img src="../static/img/olitas.png" alt="Logo" style="width: 90px; margin-right: 20px;">
@@ -56,7 +53,7 @@
                                     <div class="input-group">
                                         <label class="label">Nombre completo
                                             <span style="color: red">*</span></label>
-                                        <input class="input--style-4" type="text" name="first_name" />
+                                        <input class="input--style-4" type="text" name="first_name" required />
                                         <small class="sublabel" style="visibility: hidden;">Nombre</small>
                                     </div>
                                 </div>
@@ -64,44 +61,41 @@
                                     <div class="input-group">
                                         <label class="label" style="visibility: visible;">Apellido completo <span
                                                 style="color: red">*</span></label>
-                                        <input class="input--style-4" type="text" name="last_name" />
+                                        <input class="input--style-4" type="text" name="last_name" required />
                                         <small class="sublabel" style="visibility: hidden;">Apellido</small>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-
                         <div class="row row-space">
                             <div class="col-2">
                                 <div class="highlight-group">
                                     <div class="input-group">
                                         <label class="label">E-mail <span style="color: red">*</span></label>
-                                        <input class="input--style-4" type="email" name="email" />
+                                        <input class="input--style-4" type="email" name="email" required />
                                         <small class="sublabel">ejemplo@ejemplo.com</small>
                                     </div>
                                 </div>
                             </div>
 
-
                             <div class="col-2">
                                 <div class="highlight-group">
                                     <div class="input-group">
                                         <label class="label">DNI o CUIT <span style="color: red">*</span></label>
-                                        <input class="input--style-4" type="text" name="dni_cuit" />
+                                        <input class="input--style-4" type="text" name="dni_cuit" required />
                                         <small class="sublabel">Número sin puntos</small>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-
                         <div class="col-2">
                             <div class="highlight-group">
                                 <div class="input-group">
                                     <label class="label">Fecha de nacimiento <span style="color: red">*</span></label>
                                     <div class="input-group-icon">
-                                        <input class="input--style-4 js-datepicker" type="text" name="birthday" />
+                                        <input class="input--style-4 js-datepicker" type="text" name="birthday" required />
                                         <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
                                     </div>
                                 </div>
@@ -112,30 +106,29 @@
                             <div class="row row-space">
                                 <div class="input-group col-2">
                                     <label class="label">Número de celular <span style="color: red">*</span></label>
-                                    <input class="input--style-4" type="text" name="cellphone" />
+                                    <input class="input--style-4" type="text" name="cellphone" required />
                                     <small class="sublabel">Código de área + Número de teléfono</small>
                                 </div>
                                 <div class="input-group col-2">
                                     <label class="label">Número de teléfono alternativo
                                         <span style="color: red">*</span></label>
-                                    <input class="input--style-4" type="text" name="alt_phone" />
+                                    <input class="input--style-4" type="text" name="alt_phone" required />
                                     <small class="sublabel">Código de área + Número de teléfono</small>
                                 </div>
                             </div>
                         </div>
-
 
                         <div class="highlight-group">
                             <div class="input-group">
                                 <label class="label">Domicilio <span style="color: red">*</span></label>
                                 <div class="row row-space">
                                     <div class="col-2">
-                                        <input class="input--style-4" type="text" name="street" placeholder="Calle" />
+                                        <input class="input--style-4" type="text" name="street" placeholder="Calle" required />
                                         <small class="sublabel" style="visibility: hidden">Calle</small>
                                     </div>
                                     <div class="col-2">
                                         <input class="input--style-4" type="text" name="door_number"
-                                            placeholder="Número" />
+                                            placeholder="Número" required />
                                     </div>
                                 </div>
                                 <div class="row row-space">
@@ -150,18 +143,18 @@
                                 </div>
                                 <div class="row row-space">
                                     <div class="col-2">
-                                        <input class="input--style-4" type="text" name="city" placeholder="Localidad" />
+                                        <input class="input--style-4" type="text" name="city" placeholder="Localidad" required />
                                         <small class="sublabel" style="visibility: hidden">Localidad</small>
                                     </div>
                                     <div class="col-2">
                                         <input class="input--style-4" type="text" name="province"
-                                            placeholder="Provincia" />
+                                            placeholder="Provincia" required />
                                         <small class="sublabel" style="visibility: hidden">Provincia</small>
                                     </div>
                                 </div>
                                 <div class="input-group" style="padding: 0px 0px 0px 0px; max-width: 47.35%;">
                                     <input class="input--style-4" type="text" name="postal_code"
-                                        placeholder="Código Postal" />
+                                        placeholder="Código Postal" required />
                                 </div>
                             </div>
                         </div>
@@ -180,11 +173,11 @@
                                 <div class="highlight-group">
                                     <div class="input-group">
                                         <label class="label">Estado Civil <span style="color: red">*</span></label>
-                                        <select class="input--style-4 select-with-icon" name="marital_status">
+                                        <select class="input--style-4 select-with-icon" name="marital_status" required>
                                             <option disabled="disabled" selected="selected">Elegir</option>
-                                            <option value="single">Soltero</option>
-                                            <option value="divorced">Divorciado</option>
-                                            <option value="married">Casado</option>
+                                            <option value="Soltero">Soltero</option>
+                                            <option value="Divorciado">Divorciado</option>
+                                            <option value="Casado">Casado</option>
                                         </select>
                                     </div>
                                 </div>
@@ -203,7 +196,7 @@
                                     <div class="input-group">
                                         <label class="label">N° de Suscripción asignado
                                             <span style="color: red">*</span></label>
-                                        <input class="input--style-4" type="text" name="subscription_number" />
+                                        <input class="input--style-4" type="text" name="subscription_number" required />
                                         <small class="sublabel">Ej. 123456</small>
                                     </div>
                                 </div>
@@ -216,7 +209,7 @@
                                 <div class="highlight-group">
                                     <div class="input-group">
                                         <label class="label">Modelo de Suscripción</label>
-                                        <select class="input--style-4 select-with-icon" name="subscription_model">
+                                        <select class="input--style-4 select-with-icon" name="subscription_model" required>
                                             {% for vehicle in vehicles %}
                                             <option value="{{ vehicle.name }}">{{ vehicle.name }} - {{
                                                 vehicle.description }}</option>
@@ -228,20 +221,19 @@
                                 </div>
                             </div>
 
-
                             <div class="col-2">
                                 <div class="highlight-group">
                                     <div class="input-group">
                                         <label class="label">Forma de pago RESERVA
                                             <span style="color: red">*</span></label>
-                                        <select class="input--style-4 select-with-icon" name="payment_method">
+                                        <select class="input--style-4 select-with-icon" name="payment_method" required>
                                             <option disabled="disabled" selected="selected">
                                                 Elegir
                                             </option>
-                                            <option value="credit_card">TARJETA DE CRÉDITO</option>
-                                            <option value="debit_card">TARJETA DE DÉBITO</option>
-                                            <option value="easy_payment">PAGO FÁCIL / RAPIPAGO</option>
-                                            <option value="mercado_pago">MERCADO PAGO</option>
+                                            <option value="Tarjeta de Crédito">TARJETA DE CRÉDITO</option>
+                                            <option value="Tarjeta de Débito">TARJETA DE DÉBITO</option>
+                                            <option value="PagoFácil/RapiPago">PAGO FÁCIL / RAPIPAGO</option>
+                                            <option value="MercadoPago">MERCADO PAGO</option>
                                         </select>
                                         <div class="select-dropdown"></div>
                                     </div>
@@ -249,12 +241,11 @@
                             </div>
                         </div>
 
-
                         <div class="highlight-group">
                             <div class="input-group">
                                 <label class="label">Asesor de atención al cliente
                                     <span style="color: red">*</span></label>
-                                <select class="input--style-4 select-with-icon" name="customer_advisor">
+                                <select class="input--style-4 select-with-icon" name="customer_advisor" required>
                                     {% for advisor in advisors %}
                                     <option value="{{ advisor.name }}">{{ advisor.name }} ({{ advisor.email }})</option>
                                     {% endfor %}
@@ -264,22 +255,21 @@
                             </div>
                         </div>
 
-
                         <div class="highlight-group">
                             <div class="input-group">
                                 <label class="label">Adherirse al Débito Automático para el pago de cuotas
                                     <span style="color: red">*</span></label>
                                 <div class="p-t-10">
                                     <label class="radio-container m-r-45">Sí, con tarjeta de crédito
-                                        <input type="radio" name="payment" />
+                                        <input type="radio" name="payment" value="Sí - Tarjeta de Crédito" required />
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="radio-container m-r-45">Sí, por débito bancario CBU
-                                        <input type="radio" name="payment" />
+                                        <input type="radio" name="payment" value="Sí - Débito bancario CBU" required />
                                         <span class="checkmark"></span>
                                     </label>
                                     <label class="radio-container">No por el momento
-                                        <input type="radio" name="payment" />
+                                        <input type="radio" name="payment" value="No" required />
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
@@ -330,7 +320,6 @@
                                 Enviar
                             </button>
                         </div>
-
 
                         <!-- Jquery JS-->
                         <script src="../static/vendor/jquery/jquery.min.js"></script>
