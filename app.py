@@ -1,34 +1,37 @@
+from datetime import datetime
 from flask import Flask, render_template, request
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+from flask_babel import Babel, lazy_gettext as _
 from flask_mail import Mail, Message
 from flask_mysqldb import MySQL
 from flask_sqlalchemy import SQLAlchemy
-from flask_admin import Admin
-from flask_admin.contrib.sqla import ModelView
-from datetime import datetime
 
-# Inicialización
 app = Flask(__name__)
 
-# Configuraciones
-app.config["MYSQL_HOST"] = "localhost"
-app.config["MYSQL_USER"] = "root"
-app.config["MYSQL_PASSWORD"] = ""
-app.config["MYSQL_DB"] = "fiat_form"
-app.config["MAIL_SERVER"] = "smtp-relay.brevo.com"
-app.config["MAIL_PORT"] = 587
-app.config["MAIL_USE_TLS"] = True
-app.config["MAIL_USE_SSL"] = False
-app.config["MAIL_USERNAME"] = "crowiejose@gmail.com"
-app.config["MAIL_PASSWORD"] = "QvmUF9CJ8PnKTg4R"
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:@localhost/fiat_form"
-app.config["SECRET_KEY"] = "f123"
+# Configuraciones agrupadas
+CONFIG = {
+    "MYSQL_HOST": "localhost",
+    "MYSQL_USER": "root",
+    "MYSQL_PASSWORD": "",
+    "MYSQL_DB": "fiat_form",
+    "MAIL_SERVER": "smtp-relay.brevo.com",
+    "MAIL_PORT": 587,
+    "MAIL_USE_TLS": True,
+    "MAIL_USE_SSL": False,
+    "MAIL_USERNAME": "crowiejose@gmail.com",
+    "MAIL_PASSWORD": "QvmUF9CJ8PnKTg4R",
+    "SQLALCHEMY_DATABASE_URI": "mysql://root:@localhost/fiat_form",
+    "SECRET_KEY": "f123"
+}
+app.config.update(CONFIG)
 
+mysql, mail, db, admin, babel = MySQL(app), Mail(app), SQLAlchemy(app), Admin(app, name=_("Administración"), template_mode="bootstrap3"), Babel(app)
 
-# Inicializar extensiones
-mysql = MySQL(app)
-mail = Mail(app)
-db = SQLAlchemy(app)
-admin = Admin(app, name="Administración", template_mode="bootstrap3")
+# Modelos de base de datos
+class BaseModel(db.Model):
+    __abstract__ = True
+    id = db.Column(db.Integer, primary_key=True)
 
 
 # Modelos de base de datos
@@ -70,32 +73,59 @@ class AdvisorModel(db.Model):
     email = db.Column(db.String(100), unique=True, nullable=False)
 
 
+class SubscriptionModelView(ModelView):
+    column_list = [
+        "first_name",
+        "last_name",
+        "email",
+        "dni_cuit",
+        "cellphone",
+        "street",
+        "door_number",
+        "subscription_number",
+        "subscription_model",
+        "customer_advisor",
+        "formatted_created_at",  # Usamos esta columna personalizada
+    ]
+    
+    @staticmethod
+    def _format_date(view, context, model, name):
+        if model.created_at:
+            return model.created_at.strftime("%Y-%m-%d")
+        return ""
+
+    column_formatters = {
+        'formatted_created_at': _format_date
+    }
+
+    column_labels = {
+        "first_name": "Nombre",
+        "last_name": "Apellido",
+        "email": "Correo Electrónico",
+        "dni_cuit": "DNI/CUIT",
+        "cellphone": "Teléfono Móvil",
+        "street": "Calle",
+        "door_number": "Número de Puerta",
+        "subscription_number": "Número de Suscripción",
+        "subscription_model": "Modelo de Suscripción",
+        "customer_advisor": "Asesor de Cliente",
+        "formatted_created_at": "Fecha de Creación",
+    }
+
+
 # Vistas de Flask-Admin
 admin.add_view(ModelView(VehicleModel, db.session, name="Modelos de Vehículos"))
 admin.add_view(ModelView(AdvisorModel, db.session, name="Asesores"))
+admin.add_view(
+    SubscriptionModelView(SubscriptionModel, db.session, name="Suscriptores")
+)
 
 
-@app.route("/testdb")
-def testdb():
-    cur = mysql.connection.cursor()
-    cur.execute("SHOW TABLES;")
-    tables = cur.fetchall()
-    return str(tables)
+def get_locale():
+    return "es"
 
 
-@app.route("/createtable")
-def create_table():
-    cur = mysql.connection.cursor()
-    cur.execute(
-        """
-        CREATE TABLE test_table (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            name VARCHAR(50) NOT NULL
-        );
-    """
-    )
-    mysql.connection.commit()
-    return "Tabla creada!"
+babel.init_app(app, locale_selector=get_locale)
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -126,12 +156,20 @@ def index():
             "payment": request.form.get("payment"),
         }
 
+        subscription = SubscriptionModel(**data)
+
+        # Agregar la instancia a la sesión de la base de datos
+        db.session.add(subscription)
+
+        # Confirmar la sesión para guardar los cambios en la base de datos
+        db.session.commit()
+
         # Renderizar el template del correo con los datos
         email_content = render_template("email_template.html", **data)
 
         # Crear el mensaje de correo
         msg = Message(
-            "Nuevo Formulario de Suscripción",
+            "Nueva Suscripción",
             sender="crowiejose@gmail.com",
             recipients=["crowiejose@gmail.com"],
         )
@@ -143,11 +181,8 @@ def index():
         return "¡Gracias por tu suscripción! Hemos recibido tus datos."
     vehicles = VehicleModel.query.all()
     advisors = AdvisorModel.query.all()
-    print(vehicles)
-    print(advisors)
 
-    return render_template('index.html', vehicles=vehicles, advisors=advisors)
-
+    return render_template("index.html", vehicles=vehicles, advisors=advisors)
 
 
 if __name__ == "__main__":
