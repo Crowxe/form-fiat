@@ -106,3 +106,12 @@ document.getElementById('clear-pad').addEventListener('click', () => {
     setupCanvas();
     hasDrawn = false; // Restablecer el indicador al limpiar el canvas
 });
+
+document.getElementById('subscriptionForm').addEventListener('submit', function(e) {
+    // Obtener la firma en formato base64
+    const signatureBase64 = signaturePad.toDataURL();
+
+    // Almacenar la firma en el campo oculto
+    document.getElementById('signature_base64').value = signatureBase64;
+});
+

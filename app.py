@@ -6,6 +6,11 @@ from flask_babel import Babel, lazy_gettext as _
 from flask_mail import Mail, Message
 from flask_mysqldb import MySQL
 from flask_sqlalchemy import SQLAlchemy
+from PIL import Image
+import base64
+import io
+import os
+
 
 app = Flask(__name__)
 
@@ -59,6 +64,7 @@ class SubscriptionModel(db.Model):
     customer_advisor = db.Column(db.String(50), nullable=False)
     payment = db.Column(db.String(50), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    signature = db.Column(db.Text, nullable=False)
 
 
 class VehicleModel(db.Model):
@@ -127,6 +133,20 @@ def get_locale():
     return "es"
 
 
+def save_signature_image(signature_base64, filename):
+    print("Cadena base64 de la firma en save_signature_imageAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:", signature_base64)
+    signature_base64 = signature_base64.split(",")[1]
+    # Decodifica la cadena base64
+    signature_data = io.BytesIO(base64.b64decode(signature_base64))
+    # Abre la imagen usando PIL
+    image = Image.open(signature_data)
+    # Define la ruta donde se guardará la imagen
+    path = os.path.join("signatures", filename)
+    # Guarda la imagen en la ruta especificada
+    image.save(path)
+    # Retorna la ruta donde se guardó la imagen
+    return path
+
 babel.init_app(app, locale_selector=get_locale)
 
 
@@ -156,36 +176,73 @@ def index():
             "payment_method": request.form.get("payment_method"),
             "customer_advisor": request.form.get("customer_advisor"),
             "payment": request.form.get("payment"),
+            "signature": request.form.get("signature_base64"),
         }
 
         subscription = SubscriptionModel(**data)
+        # Convertimos la firma base64 en una imagen y obtenemos la ruta donde se guardó
+        signature_path = save_signature_image(data["signature"], f"signature_{subscription.first_name}.png")
+        # Actualizamos el campo 'signature' con la ruta de la imagen en lugar de la cadena base64
+        data["signature"] = signature_path
+        subscription.signature = signature_path
+        
 
-        # Agregar la instancia a la sesión de la base de datos
-        db.session.add(subscription)
+         # Buscar al asesor en la base de datos
+        advisor = AdvisorModel.query.filter_by(name=data["customer_advisor"]).first()
 
-        # Confirmar la sesión para guardar los cambios en la base de datos
-        db.session.commit()
+        # Si el asesor existe, obtener su email
+        advisor_email = advisor.email if advisor else None
 
-        # Renderizar el template del correo con los datos
-        email_content = render_template("email_template.html", **data)
+        # Verificar si se encontró el email del asesor
+        if not advisor_email:
+            return "Error: No se encontró el email del asesor."
+        
+        # Imprime la cadena base64 de la firma para depuración
+        print("Cadena base64 de la firmaTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT:", data["signature"])
 
-        # Crear el mensaje de correo
-        msg = Message(
+        # Preparar el contenido de los correos
+        subscriber_email_content = render_template("subscriber_email_template.html", **data)
+        admin_email_content = render_template("email_template.html", **data)
+
+        # Crear el mensaje de correo para el suscriptor
+        subscriber_msg = Message(
+            "Confirmación de Suscripción",
+            sender="crowiejose@gmail.com",
+            recipients=[data["email"]],
+        )
+        subscriber_msg.html = subscriber_email_content
+
+        # Crear el mensaje de correo para la administración (1er correo)
+        admin_msg1 = Message(
             "Nueva Suscripción",
             sender="crowiejose@gmail.com",
             recipients=["crowiejose@gmail.com"],
         )
-        msg.html = email_content  # Establece el contenido renderizado como el cuerpo del correo
+        admin_msg1.html = admin_email_content
 
-        # Enviar el mensaje
-        mail.send(msg)
+        # Crear el mensaje de correo para el asesor
+        admin_msg2 = Message(
+            "Nueva Suscripción",
+            sender="crowiejose@gmail.com",
+            recipients=[advisor_email],
+        )
+        admin_msg2.html = admin_email_content
+
+        # Enviar los correos
+        mail.send(subscriber_msg)
+        mail.send(admin_msg1)
+        mail.send(admin_msg2)
+
+        # Guardar la suscripción en la base de datos
+        db.session.add(subscription)
+        db.session.commit()
 
         return "¡Gracias por tu suscripción! Hemos recibido tus datos."
+
+    # Si es un GET, mostrar el formulario
     vehicles = VehicleModel.query.all()
     advisors = AdvisorModel.query.all()
-
     return render_template("index.html", vehicles=vehicles, advisors=advisors)
-
 
 if __name__ == "__main__":
     app.run(debug=True)

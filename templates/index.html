@@ -45,7 +45,7 @@
 
                     <hr style="margin-top: 30px; margin-bottom: 30px;">
 
-                    <form method="POST">
+                    <form method="POST" id="subscriptionForm">
 
                         <div class="highlight-group">
                             <div class="row row-space">
@@ -276,11 +276,14 @@
                             </div>
                         </div>
 
+                        
+
                         <div class="highlight-group">
                             <div class="input-group">
                                 <label class="label">FIRMA</label>
                                 <canvas id="signature-pad" class="signature-pad"
                                     style="border: 1px solid #e0e0e0; width: 300px; height: 120px;"></canvas>
+                                    <input type="hidden" id="signature_base64" name="signature_base64">
                                 <div class="signature-footer"
                                     style="display: flex; justify-content: space-between; align-items: center; width: 300px;">
                                     <small class="sublabel">Utiliza el mouse o el dedo para firmar</small>
