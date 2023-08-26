@@ -180,9 +180,10 @@ def embed_data_on_form(signature_path, data, base_image_path="solicitud/solicitu
     base_image = add_text_to_image(base_image, data["postal_code"], (300, 2335))
     base_image = add_text_to_image(base_image, data["city"].upper(), (865, 2335))
     base_image = add_text_to_image(base_image, data["province"].upper(), (1780, 2335))
-    # base_image = add_text_to_image(base_image, data["dni_cuit"], (x9, y9))
-    # base_image = add_text_to_image(base_image, data["birthday"], (x10, y10))
-    # base_image = add_text_to_image(base_image, data["marital_status"], (x11, y11))
+    base_image = add_text_to_image(base_image, data["dni_cuit"], (1080, 2575))
+    base_image = add_text_to_image(base_image, data["birthday"], (1585, 2740))
+    base_image = add_text_to_image(base_image, data["marital_status"].upper(), (290, 2740))
+    base_image = add_text_to_image(base_image, data["cellphone"], (2060, 2740))
 
     # Guarda la imagen resultante
     output_path = f"solicitudes-autocompletadas/solicitud_{data['first_name']}_{data['last_name']}.png"
