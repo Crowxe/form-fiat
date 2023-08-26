@@ -177,9 +177,9 @@ def embed_data_on_form(signature_path, data, base_image_path="solicitud/solicitu
 
     base_image = add_text_to_image(base_image, full_name, (300, 2097))
     base_image = add_text_to_image(base_image, address_text, (300, 2220))
-    # base_image = add_text_to_image(base_image, data["postal_code"], (x6, y6))
-    # base_image = add_text_to_image(base_image, data["city"], (x7, y7))
-    # base_image = add_text_to_image(base_image, data["province"], (x8, y8))
+    base_image = add_text_to_image(base_image, data["postal_code"], (300, 2335))
+    base_image = add_text_to_image(base_image, data["city"].upper(), (865, 2335))
+    base_image = add_text_to_image(base_image, data["province"].upper(), (1780, 2335))
     # base_image = add_text_to_image(base_image, data["dni_cuit"], (x9, y9))
     # base_image = add_text_to_image(base_image, data["birthday"], (x10, y10))
     # base_image = add_text_to_image(base_image, data["marital_status"], (x11, y11))
