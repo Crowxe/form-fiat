@@ -7,6 +7,7 @@ from flask_mail import Mail, Message
 from flask_mysqldb import MySQL
 from flask_sqlalchemy import SQLAlchemy
 from PIL import Image
+from PIL import ImageDraw, ImageFont
 import base64
 import io
 import os
@@ -134,7 +135,6 @@ def get_locale():
 
 
 def save_signature_image(signature_base64, filename):
-    print("Cadena base64 de la firma en save_signature_imageAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA:", signature_base64)
     signature_base64 = signature_base64.split(",")[1]
     # Decodifica la cadena base64
     signature_data = io.BytesIO(base64.b64decode(signature_base64))
@@ -146,6 +146,49 @@ def save_signature_image(signature_base64, filename):
     image.save(path)
     # Retorna la ruta donde se guardó la imagen
     return path
+
+def add_text_to_image(image, text, position, font_path="arial.ttf", font_size=55):
+    """
+    Añade texto a una imagen en una posición específica.
+
+    :param image: Objeto Image de PIL.
+    :param text: Texto que se quiere añadir.
+    :param position: Una tupla (x, y) que indica dónde se debe añadir el texto.
+    :param font_path: Ruta de la fuente que se quiere usar. Por defecto es Arial.
+    :param font_size: Tamaño de la fuente.
+    :return: Objeto Image con el texto añadido.
+    """
+    draw = ImageDraw.Draw(image)
+    font = ImageFont.truetype(font_path, font_size)
+    draw.text(position, text, font=font, fill="black")
+    return image
+
+
+def embed_data_on_form(signature_path, data, base_image_path="solicitud/solicitud-adhesion1.png"):
+    base_image = Image.open(base_image_path)
+    signature_image = Image.open(signature_path)
+
+    # Coordenadas donde quieres incrustar la firma
+    position_signature = (1900, 3270)
+    base_image.paste(signature_image, position_signature, signature_image)  # El último argumento es para manejar la transparencia
+
+    full_name = (data["first_name"] + " " + data["last_name"]).upper()
+    address_text = f"{data['street']} {data['door_number']} {data['floor']}° {data['apartment']}".upper()
+
+    base_image = add_text_to_image(base_image, full_name, (300, 2097))
+    base_image = add_text_to_image(base_image, address_text, (300, 2220))
+    # base_image = add_text_to_image(base_image, data["postal_code"], (x6, y6))
+    # base_image = add_text_to_image(base_image, data["city"], (x7, y7))
+    # base_image = add_text_to_image(base_image, data["province"], (x8, y8))
+    # base_image = add_text_to_image(base_image, data["dni_cuit"], (x9, y9))
+    # base_image = add_text_to_image(base_image, data["birthday"], (x10, y10))
+    # base_image = add_text_to_image(base_image, data["marital_status"], (x11, y11))
+
+    # Guarda la imagen resultante
+    output_path = f"solicitudes-autocompletadas/solicitud_{data['first_name']}_{data['last_name']}.png"
+    base_image.save(output_path)
+
+    return output_path
 
 babel.init_app(app, locale_selector=get_locale)
 
@@ -181,11 +224,12 @@ def index():
 
         subscription = SubscriptionModel(**data)
         # Convertimos la firma base64 en una imagen y obtenemos la ruta donde se guardó
-        signature_path = save_signature_image(data["signature"], f"signature_{subscription.first_name}.png")
+        signature_path = save_signature_image(data["signature"], f"signature_{subscription.first_name}_{subscription.last_name}.png")
         # Actualizamos el campo 'signature' con la ruta de la imagen en lugar de la cadena base64
         data["signature"] = signature_path
         subscription.signature = signature_path
-        
+        # Llama a la función para incrustar la firma en la imagen de la solicitud
+        embed_data_on_form(signature_path, data)
 
          # Buscar al asesor en la base de datos
         advisor = AdvisorModel.query.filter_by(name=data["customer_advisor"]).first()
@@ -196,9 +240,6 @@ def index():
         # Verificar si se encontró el email del asesor
         if not advisor_email:
             return "Error: No se encontró el email del asesor."
-        
-        # Imprime la cadena base64 de la firma para depuración
-        print("Cadena base64 de la firmaTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT:", data["signature"])
 
         # Preparar el contenido de los correos
         subscriber_email_content = render_template("subscriber_email_template.html", **data)
@@ -229,9 +270,9 @@ def index():
         admin_msg2.html = admin_email_content
 
         # Enviar los correos
-        mail.send(subscriber_msg)
-        mail.send(admin_msg1)
-        mail.send(admin_msg2)
+        # mail.send(subscriber_msg)
+        # mail.send(admin_msg1)
+        # mail.send(admin_msg2)
 
         # Guardar la suscripción en la base de datos
         db.session.add(subscription)
