@@ -279,7 +279,7 @@ def index():
         db.session.add(subscription)
         db.session.commit()
 
-        return "¡Gracias por tu suscripción! Hemos recibido tus datos."
+        return render_template("confirmation.html")
 
     # Si es un GET, mostrar el formulario
     vehicles = VehicleModel.query.all()
