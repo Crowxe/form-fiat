@@ -270,9 +270,9 @@ def index():
         admin_msg2.html = admin_email_content
 
         # Enviar los correos
-        # mail.send(subscriber_msg)
-        # mail.send(admin_msg1)
-        # mail.send(admin_msg2)
+        mail.send(subscriber_msg)
+        mail.send(admin_msg1)
+        mail.send(admin_msg2)
 
         # Guardar la suscripción en la base de datos
         db.session.add(subscription)

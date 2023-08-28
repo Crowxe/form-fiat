@@ -178,41 +178,21 @@ h6 {
 /* ==========================================================================
    #BACKGROUND
    ========================================================================== */
-.bg-blue {
-  background: #2c6ed5;
-}
-
-.bg-red {
-  background: #fa4251;
-}
-
-.bg-gra-01 {
-  background: -webkit-gradient(
-    linear,
-    left bottom,
-    left top,
-    from(#d3d3d3),
-    to(#a9a9a9)
-  );
-  background: -webkit-linear-gradient(bottom, #d3d3d3 0%, #a9a9a9 100%);
-  background: -moz-linear-gradient(bottom, #d3d3d3 0%, #a9a9a9 100%);
-  background: -o-linear-gradient(bottom, #d3d3d3 0%, #a9a9a9 100%);
-  background: linear-gradient(to top, #d3d3d3 0%, #a9a9a9 100%);
-}
-
-.bg-gra-02 {
-  background: -webkit-gradient(
-    linear,
-    left bottom,
-    right top,
-    from(#bdbdbd),
-    to(#808080)
-  );
-  background: -webkit-linear-gradient(bottom left, #bdbdbd 0%, #808080 100%);
-  background: -moz-linear-gradient(bottom left, #bdbdbd 0%, #808080 100%);
-  background: -o-linear-gradient(bottom left, #bdbdbd 0%, #808080 100%);
-  background: linear-gradient(to top right, #bdbdbd 0%, #808080 100%);
-}
+   .bg-blue {
+    background: #2c6ed5;
+  }
+  
+  .bg-red {
+    background: #501015;
+  }
+  
+  .bg-gra-01 {
+    background: linear-gradient(#500404, #6d3b3b);
+  }
+  
+  .bg-gra-02 {
+    background: linear-gradient(#6e3939, #440303);
+  }
 
 /* ==========================================================================
    #SPACING
@@ -310,24 +290,16 @@ h6 {
   border-radius: 20px;
 }
 
-.btn--green {
-  background: #57b846;
-}
-
-.btn--green:hover {
-  background: #4dae3c;
-}
-
 .btn--blue {
-  background: linear-gradient(to bottom, #043e7c, #5578b8);
+  background: linear-gradient(to bottom, #7c0404, #b85555);
   border: none;
   transition: box-shadow 0.3s ease, transform 0.3s ease; /* Transición suave para box-shadow y transform */
 }
 
 .btn--blue:hover {
-  background: linear-gradient(to bottom, #075cb8, #6790dd);
+  background: linear-gradient(to bottom, #b80707, #dd6767);
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); /* Efecto de iluminación sutil */
-}
+}rgb(124, 4, 4)rgb(78, 6, 6)
 
 /* ==========================================================================
    #DATE PICKER
@@ -480,11 +452,11 @@ input {
 
 .radio-container:hover .checkmark,
 .radio-container input:checked ~ .checkmark {
-  box-shadow: 0 0 6px #043e7c; /* Sombra azul más suave */
+  box-shadow: 0 0 6px #7c0404; /* Sombra azul más suave */
 }
 
 .radio-container input:checked ~ .checkmark {
-  border: 1px solid #043e7c; /* Borde azul más delgado */
+  border: 1px solid #7c0404; /* Borde azul más delgado */
   background-color: #fff;
 }
 
@@ -496,7 +468,7 @@ input {
   width: 0;
   height: 0;
   border-radius: 50%;
-  background: #2362a7;
+  background: #a72323;
   transition: all 0.2s ease;
 }
 
