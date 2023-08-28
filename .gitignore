@@ -29,5 +29,5 @@ ENV/
 *.sqlite3
 
 # Otros archivos que podrías querer ignorar (por ejemplo, archivos de imagen temporal, etc.)
- signatures/
- solicitudes-autocompletadas/
+signatures/
+solicitudes-autocompletadas/
