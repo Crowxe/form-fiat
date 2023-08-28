@@ -1,6 +1,6 @@
-<!-- templates/confirmation.html -->
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,8 +8,8 @@
     <link href="../static/css/main.css" rel="stylesheet" media="all" />
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(#8B0000, #6b3d3d);
             margin: 0;
             padding: 0;
             display: flex;
@@ -20,30 +20,33 @@
 
         .confirmation-container {
             background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 40px 50px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             text-align: center;
             max-width: 90%;
-            width: 500px;
+            width: 550px;
         }
 
         h1 {
             color: #333;
             margin-top: 0;
+            font-size: 28px;
+            font-weight: bold;
         }
 
         p {
-            color: #666;
-            font-size: 16px;
-            margin: 20px 0;
+            color: #555;
+            font-size: 18px;
+            margin: 25px 0;
+            line-height: 1.5;
         }
 
         .logo-container {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 20px 0;
+            margin: 25px 0;
         }
 
         .logo-container img {
@@ -51,22 +54,40 @@
             margin-right: 20px;
         }
 
+        .btn {
+            background: linear-gradient(#8B0000, #6b3d3d);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background 0.5s, transform 0.3s; /* Ajuste aquí */
+        }
+
+        .btn:hover {
+            background: linear-gradient(#6b3d3d, #8B0000);
+            transform: scale(1.05);
+        }
+
         @media (max-width: 600px) {
             .confirmation-container {
                 width: 90%;
+                padding: 30px;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="confirmation-container">
-        <h1>¡Gracias por tu suscripción!</h1>
+        <h1>¡Gracias por tu suscripción, {{ first_name }}!</h1>
         <div class="logo-container">
             <img src="../static/img/olitas.png" alt="Logo">
         </div>
         <p>Hemos recibido tus datos y te hemos enviado un correo electrónico con la confirmación. <br>
-        No olvides revisar tu "Correo no deseado" o "Spam".</p>
-        <a href="/"><button class="btn btn--radius-2 btn--blue">Volver al inicio</button></a>
+            No olvides revisar tu "Correo no deseado" o "Spam".</p>
+        <a href="/"><button class="btn">Volver al inicio</button></a>
     </div>
 </body>
+
 </html>

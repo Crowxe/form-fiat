@@ -1,0 +1,33 @@
+# Archivos y directorios generados por el sistema
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+*.log
+*.pot
+*.db
+*.sqlite
+
+# Entorno virtual (si estás usando uno)
+venv/
+env/
+ENV/
+
+# Archivos sensibles
+.env
+
+# Archivos generados por herramientas de desarrollo
+*.swp
+*.swo
+*.swn
+*.bak
+*.idea/
+.vscode/
+
+# Archivos relacionados con bases de datos (si usas SQLite, por ejemplo)
+*.db
+*.sqlite3
+
+# Otros archivos que podrías querer ignorar (por ejemplo, archivos de imagen temporal, etc.)
+# signatures/
+# solicitudes-autocompletadas/

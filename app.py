@@ -11,26 +11,25 @@ from PIL import ImageDraw, ImageFont
 import base64
 import io
 import os
+import dotenv
 
+dotenv.load_dotenv()
 
 app = Flask(__name__)
 
-# Configuraciones agrupadas
-CONFIG = {
-    "MYSQL_HOST": "localhost",
-    "MYSQL_USER": "root",
-    "MYSQL_PASSWORD": "",
-    "MYSQL_DB": "fiat_form",
-    "MAIL_SERVER": "smtp-relay.brevo.com",
-    "MAIL_PORT": 587,
-    "MAIL_USE_TLS": True,
-    "MAIL_USE_SSL": False,
-    "MAIL_USERNAME": "crowiejose@gmail.com",
-    "MAIL_PASSWORD": "QvmUF9CJ8PnKTg4R",
-    "SQLALCHEMY_DATABASE_URI": "mysql://root:@localhost/fiat_form",
-    "SECRET_KEY": "f123"
-}
-app.config.update(CONFIG)
+# Configurations from environment variables
+app.config['MYSQL_HOST'] = os.getenv('MYSQL_HOST')
+app.config['MYSQL_USER'] = os.getenv('MYSQL_USER')
+app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD')
+app.config['MYSQL_DB'] = os.getenv('MYSQL_DB')
+app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
+app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT'))
+app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS') == 'True'
+app.config['MAIL_USE_SSL'] = os.getenv('MAIL_USE_SSL') == 'True'
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 mysql, mail, db, admin, babel = MySQL(app), Mail(app), SQLAlchemy(app), Admin(app, name=_("Administración"), template_mode="bootstrap3"), Babel(app)
 
@@ -169,7 +168,7 @@ def embed_data_on_form(signature_path, data, base_image_path="solicitud/solicitu
     signature_image = Image.open(signature_path)
 
     # Coordenadas donde quieres incrustar la firma
-    position_signature = (1900, 3270)
+    position_signature = (1855, 3270)
     base_image.paste(signature_image, position_signature, signature_image)  # El último argumento es para manejar la transparencia
 
     full_name = (data["first_name"] + " " + data["last_name"]).upper()
@@ -279,7 +278,7 @@ def index():
         db.session.add(subscription)
         db.session.commit()
 
-        return render_template("confirmation.html")
+        return render_template("confirmation.html", first_name=data["first_name"])
 
     # Si es un GET, mostrar el formulario
     vehicles = VehicleModel.query.all()
