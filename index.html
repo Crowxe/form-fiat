@@ -43,6 +43,13 @@
                         </div>
                     </div>
 
+    <!--                   {% if error %}
+                    <div class="custom-alert">
+                        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                        <strong>¡Atención!</strong> {{ error }}
+                    </div>
+                    {% endif %}
+--> 
                     <hr style="margin-top: 30px; margin-bottom: 30px;">
 
                     <form method="POST" id="subscriptionForm">
@@ -95,7 +102,8 @@
                                 <div class="input-group">
                                     <label class="label">Fecha de nacimiento <span style="color: red">*</span></label>
                                     <div class="input-group-icon">
-                                        <input class="input--style-4 js-datepicker" type="text" name="birthday" required />
+                                        <input class="input--style-4 js-datepicker" type="text" name="birthday"
+                                            required />
                                         <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
                                     </div>
                                 </div>
@@ -123,7 +131,8 @@
                                 <label class="label">Domicilio <span style="color: red">*</span></label>
                                 <div class="row row-space">
                                     <div class="col-2">
-                                        <input class="input--style-4" type="text" name="street" placeholder="Calle" required />
+                                        <input class="input--style-4" type="text" name="street" placeholder="Calle"
+                                            required />
                                         <small class="sublabel" style="visibility: hidden">Calle</small>
                                     </div>
                                     <div class="col-2">
@@ -143,7 +152,8 @@
                                 </div>
                                 <div class="row row-space">
                                     <div class="col-2">
-                                        <input class="input--style-4" type="text" name="city" placeholder="Localidad" required />
+                                        <input class="input--style-4" type="text" name="city" placeholder="Localidad"
+                                            required />
                                         <small class="sublabel" style="visibility: hidden">Localidad</small>
                                     </div>
                                     <div class="col-2">
@@ -209,7 +219,8 @@
                                 <div class="highlight-group">
                                     <div class="input-group">
                                         <label class="label">Modelo de Suscripción</label>
-                                        <select class="input--style-4 select-with-icon" name="subscription_model" required>
+                                        <select class="input--style-4 select-with-icon" name="subscription_model"
+                                            required>
                                             {% for vehicle in vehicles %}
                                             <option value="{{ vehicle.name }}">{{ vehicle.name }} - {{
                                                 vehicle.description }}</option>
@@ -276,14 +287,14 @@
                             </div>
                         </div>
 
-                        
+
 
                         <div class="highlight-group">
                             <div class="input-group">
                                 <label class="label">FIRMA</label>
                                 <canvas id="signature-pad" class="signature-pad"
                                     style="border: 1px solid #e0e0e0; width: 300px; height: 120px;"></canvas>
-                                    <input type="hidden" id="signature_base64" name="signature_base64">
+                                <input type="hidden" id="signature_base64" name="signature_base64">
                                 <div class="signature-footer"
                                     style="display: flex; justify-content: space-between; align-items: center; width: 300px;">
                                     <small class="sublabel">Utiliza el mouse o el dedo para firmar</small>
@@ -303,7 +314,8 @@
                             <div class="custom-checkbox-group">
                                 <input type="checkbox" id="terms-llave" name="terms-llave" required>
                                 <label for="terms-llave">
-                                    <a href="../static/docs/conveniollavexllave.pdf" target="_blank">Términos y Condiciones</a> Usado
+                                    <a href="../static/docs/conveniollavexllave.pdf" target="_blank">Términos y
+                                        Condiciones</a> Usado
                                     Llave X Llave *
                                 </label>
                             </div>

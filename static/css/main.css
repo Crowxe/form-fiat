@@ -185,15 +185,14 @@ h6 {
   .bg-red {
     background: #501015;
   }
-  
+ 
   .bg-gra-01 {
-    background: linear-gradient(#500404, #6d3b3b);
+    background: linear-gradient(#5a2a2a,#4d0909);
   }
   
   .bg-gra-02 {
-    background: linear-gradient(#6e3939, #440303);
+    background: linear-gradient(#440a0a, #5f2f2f);
   }
-
 /* ==========================================================================
    #SPACING
    ========================================================================== */
@@ -644,7 +643,7 @@ small {
 }
 
 .highlight-group:focus-within {
-  background-color: #fffaca;
+  background-color: #9cce91;
 }
 
 select.input--style-4 {
@@ -791,4 +790,29 @@ select {
 
 .checkbox-parent {
   padding-left: 15px;
+}
+
+.custom-alert {
+  padding: 15px;
+  background-color: #fbff00;
+  opacity: 1; 
+  transition: opacity 0.6s; 
+  margin-top: 15px;
+  border-radius: 4px; 
+  position: relative; 
+}
+
+.custom-alert .closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.custom-alert .closebtn:hover {
+  color: black;
 }

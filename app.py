@@ -18,20 +18,27 @@ dotenv.load_dotenv()
 app = Flask(__name__)
 
 # Configurations from environment variables
-app.config['MYSQL_HOST'] = os.getenv('MYSQL_HOST')
-app.config['MYSQL_USER'] = os.getenv('MYSQL_USER')
-app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_PASSWORD')
-app.config['MYSQL_DB'] = os.getenv('MYSQL_DB')
-app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
-app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT'))
-app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS') == 'True'
-app.config['MAIL_USE_SSL'] = os.getenv('MAIL_USE_SSL') == 'True'
-app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
-app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config["MYSQL_HOST"] = os.getenv("MYSQL_HOST")
+app.config["MYSQL_USER"] = os.getenv("MYSQL_USER")
+app.config["MYSQL_PASSWORD"] = os.getenv("MYSQL_PASSWORD")
+app.config["MYSQL_DB"] = os.getenv("MYSQL_DB")
+app.config["MAIL_SERVER"] = os.getenv("MAIL_SERVER")
+app.config["MAIL_PORT"] = int(os.getenv("MAIL_PORT"))
+app.config["MAIL_USE_TLS"] = os.getenv("MAIL_USE_TLS") == "True"
+app.config["MAIL_USE_SSL"] = os.getenv("MAIL_USE_SSL") == "True"
+app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME")
+app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("SQLALCHEMY_DATABASE_URI")
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
-mysql, mail, db, admin, babel = MySQL(app), Mail(app), SQLAlchemy(app), Admin(app, name=_("Administración"), template_mode="bootstrap3"), Babel(app)
+mysql, mail, db, admin, babel = (
+    MySQL(app),
+    Mail(app),
+    SQLAlchemy(app),
+    Admin(app, name=_("Administración"), template_mode="bootstrap3"),
+    Babel(app),
+)
+
 
 # Modelos de base de datos
 class BaseModel(db.Model):
@@ -94,16 +101,14 @@ class SubscriptionModelView(ModelView):
         "customer_advisor",
         "formatted_created_at",  # Usamos esta columna personalizada
     ]
-    
+
     @staticmethod
     def _format_date(view, context, model, name):
         if model.created_at:
             return model.created_at.strftime("%Y-%m-%d")
         return ""
 
-    column_formatters = {
-        'formatted_created_at': _format_date
-    }
+    column_formatters = {"formatted_created_at": _format_date}
 
     column_labels = {
         "first_name": "Nombre",
@@ -134,7 +139,11 @@ def get_locale():
 
 
 def save_signature_image(signature_base64, filename):
-    signature_base64 = signature_base64.split(",")[1]
+    if signature_base64:
+        signature_base64 = signature_base64.split(",")[1]
+    else:
+        # Maneja el caso en que signature_base64 es None o está vacío
+        return "Error: No se proporcionó una firma."
     # Decodifica la cadena base64
     signature_data = io.BytesIO(base64.b64decode(signature_base64))
     # Abre la imagen usando PIL
@@ -145,6 +154,7 @@ def save_signature_image(signature_base64, filename):
     image.save(path)
     # Retorna la ruta donde se guardó la imagen
     return path
+
 
 def add_text_to_image(image, text, position, font_path="arial.ttf", font_size=55):
     """
@@ -163,13 +173,17 @@ def add_text_to_image(image, text, position, font_path="arial.ttf", font_size=55
     return image
 
 
-def embed_data_on_form(signature_path, data, base_image_path="solicitud/solicitud-adhesion1.png"):
+def embed_data_on_form(
+    signature_path, data, base_image_path="solicitud/solicitud-adhesion1.png"
+):
     base_image = Image.open(base_image_path)
     signature_image = Image.open(signature_path)
 
     # Coordenadas donde quieres incrustar la firma
     position_signature = (1855, 3270)
-    base_image.paste(signature_image, position_signature, signature_image)  # El último argumento es para manejar la transparencia
+    base_image.paste(
+        signature_image, position_signature, signature_image
+    )  # El último argumento es para manejar la transparencia
 
     full_name = (data["first_name"] + " " + data["last_name"]).upper()
     address_text = f"{data['street']} {data['door_number']} {data['floor']}° {data['apartment']}".upper()
@@ -181,7 +195,9 @@ def embed_data_on_form(signature_path, data, base_image_path="solicitud/solicitu
     base_image = add_text_to_image(base_image, data["province"].upper(), (1780, 2335))
     base_image = add_text_to_image(base_image, data["dni_cuit"], (1080, 2575))
     base_image = add_text_to_image(base_image, data["birthday"], (1585, 2740))
-    base_image = add_text_to_image(base_image, data["marital_status"].upper(), (290, 2740))
+    base_image = add_text_to_image(
+        base_image, data["marital_status"].upper(), (290, 2740)
+    )
     base_image = add_text_to_image(base_image, data["cellphone"], (2060, 2740))
 
     # Guarda la imagen resultante
@@ -189,6 +205,7 @@ def embed_data_on_form(signature_path, data, base_image_path="solicitud/solicitu
     base_image.save(output_path)
 
     return output_path
+
 
 babel.init_app(app, locale_selector=get_locale)
 
@@ -222,16 +239,33 @@ def index():
             "signature": request.form.get("signature_base64"),
         }
 
+                # Verificar si el correo electrónico o el teléfono ya están registrados
+        existing_subscription_email = SubscriptionModel.query.filter_by(email=data["email"]).first()
+        existing_subscription_phone = SubscriptionModel.query.filter_by(cellphone=data["cellphone"]).first()
+
+                # Imprimir los valores para depuración
+        print("existing_subscription_email:", existing_subscription_email)
+        print("existing_subscription_phone:", existing_subscription_phone)
+
+        # if existing_subscription_email or existing_subscription_phone:
+        #     error_message = "El correo electrónico y/o el teléfono ya están registrados."
+        #     vehicles = VehicleModel.query.all()
+        #     advisors = AdvisorModel.query.all()
+        #     return render_template("index.html", vehicles=vehicles, advisors=advisors, error=error_message)
+
         subscription = SubscriptionModel(**data)
         # Convertimos la firma base64 en una imagen y obtenemos la ruta donde se guardó
-        signature_path = save_signature_image(data["signature"], f"signature_{subscription.first_name}_{subscription.last_name}.png")
+        signature_path = save_signature_image(
+            data["signature"],
+            f"signature_{subscription.first_name}_{subscription.last_name}.png",
+        )
         # Actualizamos el campo 'signature' con la ruta de la imagen en lugar de la cadena base64
         data["signature"] = signature_path
         subscription.signature = signature_path
         # Llama a la función para incrustar la firma en la imagen de la solicitud
         embed_data_on_form(signature_path, data)
 
-         # Buscar al asesor en la base de datos
+        # Buscar al asesor en la base de datos
         advisor = AdvisorModel.query.filter_by(name=data["customer_advisor"]).first()
 
         # Si el asesor existe, obtener su email
@@ -242,7 +276,9 @@ def index():
             return "Error: No se encontró el email del asesor."
 
         # Preparar el contenido de los correos
-        subscriber_email_content = render_template("subscriber_email_template.html", **data)
+        subscriber_email_content = render_template(
+            "subscriber_email_template.html", **data
+        )
         admin_email_content = render_template("email_template.html", **data)
 
         # Crear el mensaje de correo para el suscriptor
@@ -271,8 +307,8 @@ def index():
 
         # Enviar los correos
         mail.send(subscriber_msg)
-        mail.send(admin_msg1)
-        mail.send(admin_msg2)
+        # mail.send(admin_msg1)
+        # mail.send(admin_msg2)
 
         # Guardar la suscripción en la base de datos
         db.session.add(subscription)
@@ -284,6 +320,7 @@ def index():
     vehicles = VehicleModel.query.all()
     advisors = AdvisorModel.query.all()
     return render_template("index.html", vehicles=vehicles, advisors=advisors)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
